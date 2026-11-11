@@ -1,0 +1,12 @@
+POST http://localhost:5004/api/asistencia/registrar
+Content-Type: application/json
+
+{
+  "id": 0,
+  "empleadoId": "Agustin-001",
+  "tipo": "Ingreso"
+}
+
+###
+
+GET http://localhost:5004/api/asistencia/historial

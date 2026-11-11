@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="appEmpleado/appEmpleado.csproj" />
+  <Project Path="qrChips/qrChips.csproj" />
+  <Project Path="tabletLocal/tabletLocal.csproj" />
+</Solution>

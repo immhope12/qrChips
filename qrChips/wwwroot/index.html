@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fichaje Empleado</title>
+    <!-- Librería para escanear QR con la cámara del celular -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+
+        #reader {
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .mensaje {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Control de Asistencia - Celular</h2>
+    <p>Apunta con la cámara al código QR de la Tablet</p>
+
+    <div id="reader"></div>
+    <div id="resultado" class="mensaje"></div>
+
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            // Detenemos el escáner temporalmente para no duplicar peticiones
+            html5QrCode.stop().then(() => {
+                document.getElementById('resultado').innerText = "Enviando fichaje...";
+
+                // Preparamos los datos para tu API
+                const data = {
+                    id: 0,
+                    empleadoId: "Agustin-001",
+                    tipo: "Ingreso",
+                    qrToken: decodedText // El texto exacto que leyó del QR de la tablet
+                };
+
+                // Mandamos el POST a tu servidor
+                fetch('/api/asistencia/registrar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('resultado').className = "mensaje success";
+                        document.getElementById('resultado').innerText = "¡Fichaje registrado con éxito!";
+                    } else {
+                        document.getElementById('resultado').className = "mensaje error";
+                        document.getElementById('resultado').innerText = "Error al registrar asistencia.";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('resultado').className = "mensaje error";
+                    document.getElementById('resultado').innerText = "Error de red: " + error;
+                });
+            }).catch(err => {
+                console.error("Error al detener el escáner.", err);
+            });
+        }
+
+        const html5QrCode = new Html5Qrcode("reader");
+        html5QrCode.start(
+            { facingMode: "environment" }, // Usa la cámara trasera del celular
+            { fps: 10, qrbox: { width: 250, height: 250 } },
+            onScanSuccess
+        ).catch(err => {
+            document.getElementById('resultado').innerText = "No se pudo acceder a la cámara del celular.";
+        });
+    </script>
+</body>
+</html>
