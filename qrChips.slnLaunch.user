@@ -1,0 +1,32 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": "qrChips\\qrChips.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "tabletLocal\\tabletLocal.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "appEmpleado\\appEmpleado.csproj",
+        "Action": "Start"
+      }
+    ]
+  },
+  {
+    "Name": "Nuevo perfil (1)",
+    "Projects": [
+      {
+        "Path": "qrChips\\qrChips.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "tabletLocal\\tabletLocal.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
